@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Report</title>
+    <style>
+    /* Navigation bar styles */
+nav {
+    background-color: #333;
+    overflow: hidden;
+}
+
+nav a {
+    float: left;
+    display: block;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Dropdown container */
+.dropdown {
+    float: left;
+    position: relative;
+}
+
+/* Dropdown link */
+.dropbtn {
+    font-size: 16px;  
+    border: none;
+    outline: none;
+    color: #f2f2f2;
+    padding: 14px 16px;
+    background-color: #333;
+    cursor: pointer;
+}
+
+/* Dropdown content (hidden by default) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    top: 100%; /* Positions dropdown content below the button */
+    left: 0;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+/* Dropdown category title */
+.dropdown-category-title {
+    font-weight: bold;
+    padding: 10px;
+    background-color: #f1f1f1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #ddd;
+}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown:hover .dropbtn {
+    background-color: #ddd;
+    color: black;
+}
+
+    </style>
+</head>
+
+<body>
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="search-results.html">Discover Records</a>
+        <a href="add.html">Insert Records</a>
+        <div class="dropdown">
+            <a href="report.html" class="dropbtn">View Report</a>
+            <div class="dropdown-content">
+                <div class="dropdown-category">
+                    <span class="dropdown-category-title">Assets</span>
+                    <a href="#" data-value="attendance">Attendance Machine</a>
+                    <a href="#" data-value="video">Video Conferencing Device</a>
+                    <a href="#" data-value="desktop">Desktop</a>
+                    <a href="#" data-value="printer">Printer</a>
+                    <a href="#" data-value="router">Router</a>
+                    <a href="#" data-value="switch">Switch</a>
+                </div>
+                <div class="dropdown-category">
+                    <span class="dropdown-category-title">Employee Details</span>
+                    <a href="#" data-value="sitco">SITCO</a>
+                    <a href="#" data-value="hod">HOD</a>
+                    <a href="#" data-value="internal_auditor">Internal Auditor</a>
+                </div>
+                <div class="dropdown-category">
+                    <a href="#" data-value="substation">Substation Info</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+</body>
+</html>

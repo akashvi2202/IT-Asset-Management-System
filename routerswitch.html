@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Router and Switch Make Count</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #121212; /* Dark background for better contrast */
+            color: white; /* White text color */
+            font-family: Arial, sans-serif;
+            text-align: center; /* Center the content */
+        }
+        h1 {
+            margin-top: 20px; /* Top margin for the title */
+        }
+        .container {
+            display: grid; /* Use CSS Grid layout */
+            grid-template-columns: 1fr 1fr; /* Two column layout */
+            grid-gap: 20px; /* Gap between grid items */
+            justify-items: center; /* Center items horizontally */
+            align-items: center; /* Center items vertically */
+            margin: 0 auto; /* Center the container horizontally */
+            width: 90%; /* Responsive width */
+        }
+        .chart-container {
+            width: 100%; /* Full width of the grid item */
+            height: 600px; /* Fixed height for charts */
+            padding: 20px; /* Padding around the charts */
+            border-radius: 10px; /* Rounded corners */
+            margin-top: 70px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Shadow for depth effect */
+        }
+        canvas {
+            width: 100% !important; /* Ensure canvas fits within the container */
+            height: 100% !important; /* Ensure canvas fits within the container */
+        }
+        .chart-label {
+            margin-top: 10px; /* Space between the chart and the label */
+            font-size: 18px; /* Font size for the label */
+            font-weight: bold; /* Bold font */
+        }
+        .chart-text {
+            margin-top: 5px; /* Space between the label and the text */
+            font-size: 25px; /* Font size for the text */
+            color: #ffffff; /* Lighter color for the text */
+            max-width: 600px; /* Max width to ensure text does not stretch too wide */
+            margin-left: auto; /* Center text horizontally */
+            margin-right: auto; /* Center text horizontally */
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Router and Switch Overview</h1>
+    <div class="container">
+        <div class="chart-container">
+            <canvas id="routersChart"></canvas>
+            <div class="chart-label">Router Make Distribution</div>
+            <div class="chart-text">This chart shows the distribution of different router makes. It helps in understanding the prevalence of various brands in the network. This information is useful for inventory management and ensuring compatibility across the network.</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="switchesChart"></canvas>
+            <div class="chart-label">Switch Make Distribution</div>
+            <div class="chart-text">This chart displays the distribution of various switch makes. It provides insights into the variety of brands used in the network. Understanding switch distribution aids in optimizing network performance and planning for future upgrades.</div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('http://localhost:3000/data')
+                .then(response => response.json())
+                .then(data => {
+                    // Check if data is fetched correctly
+                    console.log('Data:', data);
+
+                    // Process Router Data
+                    const routerLabels = data.routers.map(item => item.MAKE);
+                    const routerCounts = data.routers.map(item => item.count);
+
+                    // Process Switch Data
+                    const switchLabels = data.switches.map(item => item.MAKE);
+                    const switchCounts = data.switches.map(item => item.count);
+
+                    // Create Router Chart
+                    const ctxRouters = document.getElementById('routersChart').getContext('2d');
+                    new Chart(ctxRouters, {
+                        type: 'bar',
+                        data: {
+                            labels: routerLabels,
+                            datasets: [{
+                                label: 'Number of Routers',
+                                data: routerCounts,
+                                backgroundColor: 'rgba(75, 192, 192, 0.8)',
+                                borderColor: 'rgba(75, 192, 192, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    ticks: {
+                                        color: 'white',
+                                        font: {
+                                            size: 14
+                                        }
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        color: 'white',
+                                        font: {
+                                            size: 14
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    labels: {
+                                        color: 'white',
+                                        font: {
+                                            size: 16
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+
+                    // Create Switch Chart
+                    const ctxSwitches = document.getElementById('switchesChart').getContext('2d');
+                    new Chart(ctxSwitches, {
+                        type: 'bar',
+                        data: {
+                            labels: switchLabels,
+                            datasets: [{
+                                label: 'Number of Switches',
+                                data: switchCounts,
+                                backgroundColor: 'rgba(153, 102, 255, 0.8)',
+                                borderColor: 'rgba(153, 102, 255, 1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            scales: {
+                                x: {
+                                    ticks: {
+                                        color: 'white',
+                                        font: {
+                                            size: 14
+                                        }
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        color: 'white',
+                                        font: {
+                                            size: 14
+                                        }
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    labels: {
+                                        color: 'white',
+                                        font: {
+                                            size: 16
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
+</body>
+</html>

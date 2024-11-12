@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Desktop Overview</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #121212; /* Dark background for better contrast */
+            color: white; /* White text color */
+            font-family: Arial, sans-serif;
+            text-align: center; /* Center the content */
+        }
+
+        .container {
+            display: grid; /* Use CSS Grid layout */
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            grid-gap: 50px; /* Gap between grid items */
+            justify-items: center; /* Center items horizontally */
+            align-items: start; /* Align items to the start of the grid cell */
+            max-width: 1200px; /* Max width of container */
+            margin: 0 auto; /* Center container horizontally */
+            padding: 20px; /* Padding around the container */
+        }
+
+        .chart-container {
+            width: 100%; /* Full width of the grid cell */
+            max-width: 1000px; /* Max width of each chart container */
+            padding: 40px; /* Padding around the charts */
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        canvas {
+            width: 100% !important; /* Ensure canvas fits within the container */
+            height: 600px !important; /* Adjust height as needed */
+        }
+
+        .chart-label {
+            margin-top: 15px; /* Space between the chart and the label */
+            font-size: 24px; /* Font size for the label */
+            font-weight: bold; /* Bold font */
+        }
+
+        .chart-text {
+            margin-top: 10px; /* Space between the label and the text */
+            font-size: 2rem; /* Font size for the text */
+            color: #ccc; /* Lighter color for the text */
+        }
+
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Desktop Overview</h1>
+    <div class="container">
+        <div class="chart-container">
+            <canvas id="makeChart"></canvas>
+            <div class="chart-label">Make Distribution</div>
+            <div class="chart-text">Shows the distribution of different makes. This chart helps in identifying the most prevalent brands used within the desktop inventory.</div>
+        </div>
+        <div class="chart-container">
+            <canvas id="windowsVersionChart"></canvas>
+            <div class="chart-label">Windows Versions</div>
+            <div class="chart-text">Shows the count of different Windows versions. This helps in ensuring software compatibility and planning for upgrades.</div>
+        </div>
+    </div>
+
+    <script>
+        fetch('/api/desktop-summary')
+            .then(response => response.json())
+            .then(data => {
+                // Donut Chart for Make
+                new Chart(document.getElementById('makeChart'), {
+                    type: 'pie',
+                    data: {
+                        labels: data.makes.map(make => make.make),
+                        datasets: [{
+                            data: data.makes.map(make => make.count),
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40'],
+                            borderColor: '#121212',
+                            borderWidth: 1,
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    color: 'white'
+                                }
+                            }
+                        }
+                    }
+                });
+
+                // Donut Chart for Windows Version
+                new Chart(document.getElementById('windowsVersionChart'), {
+                    type: 'pie',
+                    data: {
+                        labels: data.windowsVersions.map(win => win.version),
+                        datasets: [{
+                            data: data.windowsVersions.map(win => win.count),
+                            backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF', '#FF9F40', '#C0C0C0', '#800080'],
+                            borderColor: '#121212',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    color: 'white'
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>

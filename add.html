@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Information</title>
+    <style>
+     html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+         /* Dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown button */
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 10;
+    top: 100%; /* Position it directly below the button */
+    left: 0;
+    width: 400px; /* Adjust width as needed */
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+/* Dropdown menu items */
+.dropdown-menu a {
+    color: #333;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #ddd;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f5f5f5;
+}
+
+/* Dropdown category title */
+.dropdown-category-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Show dropdown menu on hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+    color: #218838;
+}
+
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            z-index: 0;
+        }
+
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('images/add.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            opacity: 0.5;
+            z-index: -1;
+        }
+
+        header {
+            color: #000000;
+            padding: 1.5rem 2rem;
+            display: flex;
+            font-size: large;
+            font-style: italic;
+            align-items: center;
+            justify-content: right;
+            position: relative;
+            height: 120px;
+            z-index: 2;
+        }
+
+      
+        header img {
+    position: absolute;
+    left: 0rem;
+    top: 30%;
+    transform: translateY(-50%);
+    height: 130px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 4rem;
+            font-style: italic;
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        nav {
+            background-color: #04A559;
+            color: #ffffff;
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            top: 120px;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 1;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-size: 1.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: inline-block;
+        }
+
+        nav a:hover {
+            background-color: #0056b3;
+            color: #fff;
+        }
+
+        main {
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            margin-top: 60px;
+            align-items: flex-start;
+        }
+
+       .form-container {
+        overflow-y: auto;
+    max-width: 800px; /* Increased width for more space */
+    width: 90%; /* Make it responsive */
+    margin: 2rem auto; /* Add top and bottom margin for spacing */
+    background-image: radial-gradient( #4382e7, #7debb8);
+    padding: 2rem;
+    margin-top: 180px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Ensure padding is included in width calculation */
+}
+
+/* Ensure the form fields and button are styled properly */
+.form-group input, .form-group select {
+    width: 100%; /* Full width of the container */
+    padding: 0.75rem;
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+/* Style button with better spacing */
+.form-group button {
+    width: 100%; /* Full width of the container */
+    padding: 1rem;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 4px;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+.form-group label {
+    font-size: 1.35rem; /* Increase font size */
+    font-weight: bold;
+    margin-bottom: 0.5rem; /* Add space below the label */
+    display: block; /* Make sure the label is on its own line */
+}
+
+
+/* Ensure the button changes color on hover */
+.form-group button:hover {
+    background-color: #0056b3;
+}
+    </style>
+</head>
+<header>
+    <img src="images/headerimg.jpg" alt="Logo" class="logo">
+    <h1>IT Assets Management System</h1>
+</header>
+<body>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="search-results.html">Discover Records</a>
+            <a href="add.html">Insert Records</a>
+            
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle">View Report</a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-category">
+                        <span class="dropdown-category-title">Assets</span>
+                        <a href="am.html">Attendance Machine</a>
+                        <a href="vc.html">Video Conferencing Device</a>
+                        <a href="desktop.html">Desktop</a>
+                        <a href="printer.html">Printer</a>
+                        <a href="routerswitch.html">Router & Switch</a>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown">
+                <a href="#" class="dropdown-toggle">Gate Pass</a>
+                <div class="dropdown-menu">
+                    <div class="dropdown-category">
+                        <span class="dropdown-category-title">Gate Pass Management</span>
+                        <a href="addgatepass.html">Add a Gate Pass</a>
+                        <a href="searchgatepass.html">Search Gate Pass Entries</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    
+    <div class="form-container">
+        <h2>Add Information</h2>
+        <form id="addForm">
+            <div class="form-group">
+                <label for="category">Category</label>
+                <select id="category" name="category" class="form-control" required>
+                    <option value="" disabled selected>Select category</option>
+                    <optgroup label="Assets">
+                        <option value="attendance">Attendance Machine</option>
+                        <option value="video">Video Conferencing Device</option>
+                        <option value="desktop">Desktop</option>
+                        <option value="printer">Printer</option>
+                        <option value="router">Router</option>
+                        <option value="switch">Switch</option>
+                    </optgroup>
+                    <optgroup label="Employee Details">
+                        <option value="sitco">SITCO</option>
+                        <option value="hod">HOD</option>
+                        <option value="internal_auditor">Internal Auditor</option>
+                    </optgroup>
+                    <optgroup label="Substation Details">
+                        <option value="substation">Add Substation Details</option>
+                    </optgroup>
+                </select>
+            </div>
+            <div id="dynamicFields"></div>
+            <div class="form-group">
+                <button type="submit">Add</button>
+            </div>
+        </form>
+    </div>
+<script>
+ 
+        document.getElementById('category').addEventListener('change', function() {
+            const dynamicFields = document.getElementById('dynamicFields');
+            dynamicFields.innerHTML = '';
+
+            const selectedCategory = this.value;
+
+            let fields = [];
+            let requiredFields = [];
+
+            switch (selectedCategory) {
+                case 'attendance':
+                    fields = ['Make', 'Model', 'Location', 'IP', 'Mac_Address', 'Serial_Number'];
+                    requiredFields = ['Make', 'Model', 'IP', 'Mac_Address', 'Serial_Number'];
+                    break;
+                case 'video':
+                    fields = ['Make', 'Model', 'IP', 'Mac_Address', 'Serial_Number'];
+                    requiredFields = ['Make', 'Model', 'IP', 'Mac_Address', 'Serial_Number'];
+                    break;
+                case 'desktop':
+                    fields = ['EMP_ID', 'USER_NAME', 'HOSTNAME', 'IP_ADDRESS', 'MAC_ADDRESS', 'SERIAL_NO', 'MAKE', 'SYSTEM_MODEL', 'PROCESSOR', 'WINDOWS'];
+                    requiredFields = ['EMP_ID', 'USER_NAME', 'IP_ADDRESS', 'MAC_ADDRESS', 'SERIAL_NO', 'MAKE'];
+                    break;
+                case 'printer':
+                    fields = ['SUBSTATION','MAKE', 'MODEL_NO'];
+                    requiredFields = ['SUBSTATION','MAKE', 'MODEL_NO'];
+                    break;
+                case 'router':
+                    fields = ['MAKE', 'MODEL_NO', 'SERIALNO', 'WAN_IP_ROUTER'];
+                    requiredFields = ['ASSET','MAKE', 'MODEL_NO', 'SERIALNO'];
+                    break;
+                case 'switch':
+                    fields = ['MAKE', 'MODEL_NO', 'SERIALNO', 'SWITCH_IP_SWITCH'];
+                    requiredFields = ['ASSET','MAKE', 'MODEL_NO', 'SERIALNO'];
+                    break;
+                case 'sitco':
+                    fields=['SUBSTATION', 'SITCO_NAME', 'SITCO_EMP_ID', 'SITCO_MOBILE_NO', 'SITCO_DESIGNATION','SITCO_MAIL_ID'];
+                    requiredFields = ['SITCO_EMP_ID', 'SITCO_DESIGNATION','SITCO_MAIL_ID']  
+                    break;
+                case 'hod':
+                    fields=['SUBSTATION', 'SITCO_NAME', 'HOD_EMP_ID', 'HOD_MOBILE_NO', 'HOD_DESIGNATION','HOD_MAIL_ID'];
+                    requiredFields = ['HOD_EMP_ID', 'HOD_DESIGNATION','HOD_MAIL_ID']  
+                    break;
+                case 'internal_auditor':
+                    fields=['INTERNAL_AUDITOR_NAME', 'INTERNAL_AUDITOR_EMP_ID', 'INTERNAL_AUDITOR_MOBILE_NO',
+                    'INTERNAL_AUDITOR_DESIGNATION', 'INTERNAL_AUDITOR_MAIL_ID'];
+                    requiredFields = ['INTERNAL_AUDITOR_EMP_ID','INTERNAL_AUDITOR_DESIGNATION', 'INTERNAL_AUDITOR_MAIL_ID']  
+                    break;
+                case 'substation':
+                    fields = ['SUBSTATION', 'SITCO_NAME', 'SITCO_EMP_ID', 'SITCO_MOBILE_NO', 'SITCO_DESIGNATION',
+                        'SITCO_MAIL_ID', 'HOD_NAME', 'HOD_EMP_ID', 'HOD_MOBILE_NO', 'HOD_DESIGNATION',
+                        'HOD_MAIL_ID', 'INTERNAL_AUDITOR_NAME', 'INTERNAL_AUDITOR_EMP_ID', 'INTERNAL_AUDITOR_MOBILE_NO',
+                        'INTERNAL_AUDITOR_DESIGNATION', 'INTERNAL_AUDITOR_MAIL_ID'];
+                    requiredFields = ['SUBSTATION'];
+                    break;
+            }
+
+            fields.forEach(field => {
+                const formGroup = document.createElement('div');
+                formGroup.className = 'form-group';
+                const label = document.createElement('label');
+                label.textContent = field.replace(/_/g, ' ');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = field.toLowerCase(); // Ensure lowercase names for consistency with server
+                input.className = 'form-control';
+                if (requiredFields.includes(field)) {
+                    input.required = true;
+                }
+                // Set default value for ASSET field
+                if (field === 'ASSET') {
+                    if (selectedCategory === 'router') {
+                        input.value = 'ROUTER';
+                    } else if (selectedCategory === 'switch') {
+                        input.value = 'SWITCH';
+                    }
+                }
+                formGroup.appendChild(label);
+                formGroup.appendChild(input);
+                dynamicFields.appendChild(formGroup);
+            });
+        });
+
+        document.getElementById('addForm').addEventListener('submit', async function(event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const formObj = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch('/insert', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formObj)
+                });
+
+                const result = await response.json();
+                alert(result.message);
+                // Redirect to search information page on success
+                window.location.href = 'search-results.html';
+
+            } catch (error) {
+                console.error('Error adding data:', error);
+            }
+        });
+    
+</script> 
+</body>
+</html>

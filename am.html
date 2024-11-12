@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asset Overview</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background: black; /* Set background to black */
+            font-size: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        .chart-container {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0;
+            margin: 0 auto;
+            background: none;
+        }
+        .chart-description {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+        .chart-text {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 1.5rem;
+            color: #ffffff;
+        }
+        canvas {
+            display: block;
+            width: 100% !important;
+            height: 100% !important;
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Attendance Machine Overview</h1>
+        <p>Total: <span id="total-assets">Loading...</span></p>
+
+        <div class="chart-container">
+            <div class="chart-description">Top Make of Attendance Machines</div>
+            <canvas id="brandsChart" width="800" height="600"></canvas>
+            <p class="chart-text">This bar chart illustrates the distribution of various makes of attendance machines in use.</p> 
+            <p class="chart-text">Each bar represents a specific make, with the height indicating the number of units deployed. This data helps in understanding which brands are most prevalent and can guide purchasing and maintenance decisions.</p> 
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('http://localhost:3000/api/asset-summary')
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Fetched data:', data);
+
+                    // Display total assets
+                    document.getElementById('total-assets').textContent = data.totalAssets;
+
+                    // Top Brands Chart
+                    const brandsCtx = document.getElementById('brandsChart').getContext('2d');
+                    new Chart(brandsCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: data.topBrands.map(b => b.name),
+                            datasets: [{
+                                label: 'Top Brands',
+                                data: data.topBrands.map(b => b.count),
+                                backgroundColor: ['rgba(0, 255, 0, 0.7)', 'rgba(0, 204, 255, 0.7)', 'rgba(255, 204, 0, 0.7)'],
+                                borderColor: ['rgba(0, 255, 0, 1)', 'rgba(0, 204, 255, 1)', 'rgba(255, 204, 0, 1)'],
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            plugins: {
+                                legend: {
+                                    display: true,
+                                    position: 'top',
+                                    labels: {
+                                        color: 'white'
+                                    }
+                                },
+                                tooltip: {
+                                    callbacks: {
+                                        label: function(tooltipItem) {
+                                            return `${tooltipItem.label}: ${tooltipItem.raw}`;
+                                        }
+                                    },
+                                    titleColor: 'white',
+                                    bodyColor: 'white',
+                                }
+                            },
+                            layout: {
+                                padding: 0
+                            },
+                            scales: {
+                                x: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        color: 'white',
+                                        autoSkip: false,
+                                        maxRotation: 90,
+                                        minRotation: 45,
+                                        font: {
+                                            size: 14,
+                                            color: 'white'
+                                        },
+                                        maxTicksLimit: 20
+                                    },
+                                    title: {
+                                        color: 'white',
+                                        display: true,
+                                        text: 'MAKE',
+                                        padding: {
+                                            top: 60,
+                                            bottom: 50
+                                        },
+                                        font: {
+                                            size: 18,
+                                            color: 'white'
+                                        }
+                                    },
+                                    grid: {
+                                        color: '#555'
+                                    }
+                                },
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: {
+                                        color: 'white',
+                                        font: {
+                                            size: 14,
+                                            color: 'white'
+                                        }
+                                    },
+                                    title: {
+                                        color: 'white',
+                                        display: true,
+                                        text: 'Count',
+                                        font: {
+                                            size: 18,
+                                            color: 'white'
+                                        }
+                                    },
+                                    grid: {
+                                        color: 'white',
+                                    }
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        });
+    </script>
+</body>
+</html>

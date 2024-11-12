@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VC Device Overview</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: white;
+            background: black;
+            display: flex;
+            font-size: 3rem;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden; /* Prevent horizontal overflow */
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px; /* Adjust the maximum width as needed */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .charts-wrapper {
+            display: flex;
+            justify-content: center; /* Center horizontally */
+            align-items: center; /* Center vertically */
+            height: 80vh; /* Adjust the height as needed */
+            margin-top: 20px;
+        }
+        .chart-container {
+            width: 100%;
+            max-width: 800px; /* Maximum width for the chart container */
+            padding: 20px;
+            background: none;
+            text-align: center; /* Center the text inside the container */
+            overflow: hidden; /* Prevent overflow */
+        }
+        .chart-description {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .chart-text {
+            font-size: 2rem; /* Adjusted font size */
+            color: #ffffff;
+            margin-top: 20px;
+            max-width: 1000px; /* Ensures the text does not stretch too wide */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        canvas {
+            width: 100% !important;
+            height: 500px !important; /* Set a fixed height for the canvas */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Video Conference Device Overview</h1>
+        <p>Total: <span id="total-assets">Loading...</span></p>
+
+        <div class="charts-wrapper">
+            <div class="chart-container">
+                <div class="chart-description">Top Brands of VC Devices</div>
+                <canvas id="vcBrandsChart"></canvas>
+                <p class="chart-text">This bar chart displays the distribution of video conference device brands. Each bar represents a brand, with the height indicating the number of devices. This helps in understanding brand prevalence and guides purchasing decisions.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('http://localhost:3000/api/vc-device-summary')
+            .then(response => response.json())
+            .then(data => {
+                console.log('Fetched data:', data);
+
+                // Display total assets
+                document.getElementById('total-assets').textContent = data.totalAssets;
+
+                // Top Brands Chart
+                const vcBrandsCtx = document.getElementById('vcBrandsChart').getContext('2d');
+                new Chart(vcBrandsCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: data.topBrands.map(b => b.name),
+                        datasets: [{
+                            label: 'Top Brands',
+                            data: data.topBrands.map(b => b.count),
+                            backgroundColor: ['rgba(0, 255, 0, 0.7)', 'rgba(0, 204, 255, 0.7)', 'rgba(255, 204, 0, 0.7)'],
+                            borderColor: ['rgba(0, 255, 0, 1)', 'rgba(0, 204, 255, 1)', 'rgba(255, 204, 0, 1)'],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        maintainAspectRatio: false,
+                        responsive: true,
+                        plugins: {
+                            legend: {
+                                display: true,
+                                position: 'top',
+                                labels: {
+                                    color: 'white'
+                                }
+                            },
+                            tooltip: {
+                                callbacks: {
+                                    label: function(tooltipItem) {
+                                        return `${tooltipItem.label}: ${tooltipItem.raw}`;
+                                    }
+                                },
+                                titleColor: 'white',
+                                bodyColor: 'white',
+                            }
+                        },
+                        scales: {
+                            x: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: 'white',
+                                    autoSkip: false,
+                                    maxRotation: 90,
+                                    minRotation: 45,
+                                    font: {
+                                        size: 14,
+                                        color: 'white'
+                                    },
+                                    maxTicksLimit: 20
+                                },
+                                title: {
+                                    color: 'white',
+                                    display: true,
+                                    text: 'MAKE',
+                                    padding: {
+                                        top: 60,
+                                        bottom: 50
+                                    },
+                                    font: {
+                                        size: 18,
+                                        color: 'white'
+                                    }
+                                },
+                                grid: {
+                                    color: '#555'
+                                }
+                            },
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    color: 'white',
+                                    font: {
+                                        size: 14,
+                                        color: 'white'
+                                    }
+                                },
+                                title: {
+                                    color: 'white',
+                                    display: true,
+                                    text: 'Count',
+                                    font: {
+                                        size: 18,
+                                        color: 'white'
+                                    }
+                                },
+                                grid: {
+                                    color: 'white',
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Printer Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            background-color: #121212; /* Dark background for better contrast */
+            color: white; /* White text color */
+            font-family: Arial, sans-serif;
+            text-align: center; /* Center the content */
+        }
+        .container {
+            display: flex; /* Use Flexbox for layout */
+            flex-direction: column; /* Stack items vertically */
+            align-items: center; /* Center items horizontally */
+            justify-content: center; /* Center items vertically */
+            margin-top: 200px;
+        }
+        .chart-container {
+            width: 80%; /* Adjust width to fit content */
+            max-width: 1200px; /* Max width for the chart container */
+            height: 600px; /* Adjust height for the chart */
+            padding: 20px; /* Padding around the chart */
+            border-radius: 10px; /* Rounded corners */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0; /* Margin between charts */
+        }
+        canvas {
+            width: 100% !important; /* Ensure canvas fits within the container */
+            height: 300% !important; /* Ensure canvas fits within the container */
+        }
+        .chart-label {
+            margin-top: 10px; /* Space between the chart and the label */
+            font-size: 24px; /* Increased font size for the label */
+            font-weight: bold; /* Bold font */
+        }
+        .chart-text {
+            margin-top: 10px; /* Space between the label and the text */
+            font-size: 2rem; /* Increased font size for the text */
+            color: #ccc; /* Lighter color for the text */
+            max-width: 600px; /* Max width to ensure text does not stretch too wide */
+        }
+        h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            color: white;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Printer Overview</h1>
+    <div class="container">
+        <div class="chart-container">
+            <canvas id="stackedBarChart"></canvas>
+            <div class="chart-label">Printer Make Distribution within Substations</div>
+            <div class="chart-text">This stacked bar chart displays the distribution of various printer makes across different substations. It provides insights into the prevalence of different brands within each substation, aiding in inventory and supplier management.</div>
+        </div>
+    </div>
+
+    <script>
+        // Fetch data for Stacked Bar Chart
+        fetch('/api/printer-summary')
+            .then(response => response.json())
+            .then(data => {
+                // Stacked Bar Chart for Printer Make Distribution within Substations
+                const stackedBarData = {
+                    labels: data.substations,
+                    datasets: data.makes.map(make => ({
+                        label: make.make,
+                        data: make.substationCounts,
+                        backgroundColor: `rgba(${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, ${Math.floor(Math.random() * 256)}, 0.8)`,
+                        borderColor: 'rgba(255, 255, 255, 0.2)',
+                        borderWidth: 1
+                    }))
+                };
+                new Chart(document.getElementById('stackedBarChart'), {
+                    type: 'bar',
+                    data: stackedBarData,
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            x: {
+                                stacked: true,
+                                ticks: {
+                                    color: 'white',
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            },
+                            y: {
+                                stacked: true,
+                                ticks: {
+                                    color: 'white',
+                                    font: {
+                                        size: 14
+                                    }
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: true,
+                                labels: {
+                                    color: 'white',
+                                    font: {
+                                        size: 16
+                                    }
+                                }
+                            }
+                        }
+                    }
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
+    </script>
+</body>
+</html>

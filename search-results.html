@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website</title>
+    <style>
+ /* Dropdown container */
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+/* Dropdown button */
+.dropdown-toggle {
+    cursor: pointer;
+}
+
+/* Dropdown menu styling */
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    z-index: 10;
+    top: 100%; /* Position it directly below the button */
+    left: 0;
+    width: 400px; /* Adjust width as needed */
+    border-radius: 4px;
+    padding: 1rem;
+}
+
+/* Dropdown menu items */
+.dropdown-menu a {
+    color: #333;
+    padding: 0.75rem 1rem;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #ddd;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f5f5f5;
+}
+
+/* Dropdown category title */
+.dropdown-category-title {
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+/* Show dropdown menu on hover */
+.dropdown:hover .dropdown-menu {
+    display: block;
+    color: #218838;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Background image for body */
+body::before {
+    content: "";
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background-image: url('images/serach.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    opacity: 0.5;
+    z-index: -1;
+}
+
+/* Header styling */
+header {
+    color: #000000;
+    padding: 1.5rem 2rem;
+    display: flex;
+    font-size: x-large;
+    font-style: italic;
+    align-items: center;
+    justify-content: right;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 120px;
+    z-index: 3;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+header img {
+    position: absolute;
+    left: 0rem;
+    top: 30%;
+    transform: translateY(-50%);
+    height: 130px;
+        }
+
+header h1 {
+    margin: 0;
+    font-size: 4rem;
+    font-style: italic;
+    position: absolute;
+    right: 5rem;
+    top: 50%;
+
+    transform: translateY(-50%);
+}
+
+/* Navigation bar styling */
+nav {
+            background-color: #04A559;
+            color: #ffffff;
+            padding: 1rem;
+            text-align: center;
+            position: fixed;
+            top: 120px;
+            left: 0;
+            width: 100%;
+            box-sizing: border-box;
+            z-index: 2;
+            border: none;
+            box-shadow: none;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 1.5rem;
+            font-size: 1.4rem;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: inline-block;
+        }
+
+nav a:hover {
+    background-color: #1D4382;
+    color: #fff;
+}
+
+/* Main content area */
+main {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-top: 240px; /* Add margin to avoid content being hidden under fixed elements */
+}
+
+/* Search form styling */
+.search-form {
+    width: 80%;
+    max-width: 600px;
+    background-image: radial-gradient( #4382e7, #7debb8);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+    margin: 2rem auto;
+}
+
+/* Hover effect for search form */
+.search-form:hover {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Category dropdown styling */
+.category-dropdown {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1.2rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    appearance: none;
+    background-image: url('data:image/svg+xml;charset=utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M8.5 10L3 5h15l-5.5 5-5.5-5z"/></svg>');
+    background-repeat: no-repeat;
+    background-position: right 10px top 50%;
+    background-size: 20px auto;
+}
+
+.category-dropdown:focus {
+    outline: none;
+}
+
+/* Search button styling */
+.search-button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #1D4382;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+    background-color: #1D4382;
+}
+
+/* Responsive table container */
+.table-container {
+    position: absolute;
+    margin-top: calc(120px + 1rem); 
+    width: 80%;
+    margin: 2rem auto;
+    overflow-x: hidden;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-top: 2rem;
+    z-index: 1;
+    top: 120px;
+}
+
+/* Results table styling */
+.results-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #fff;
+    font-weight: bold;
+    
+}
+
+.results-table th, .results-table td {
+    border: 1px solid #fcfcfc;
+    padding: 10px;
+}
+
+.results-table th {
+    background-color: #1b1a1a;
+    text-align: center;
+    color: white;
+    font-size: 1.5rem;
+    position: sticky;
+    top: 0; /* Position the header at the top */
+    z-index: 2; /* Ensure it stays on top*/
+}
+
+.results-table tr {
+    font-size: 1rem;
+    color: #050505;
+    font-style: normal;
+    font-size: 1.4rem;
+}
+
+.results-table tr:hover {
+    background-color: #2fef96;
+}
+
+/* Delete button styling */
+.delete-button {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #c82333;
+}
+
+/* Edit button styling */
+.edit-button {
+    background-color: #28a745;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-left: 0.5rem;
+}
+
+.edit-button:hover {
+    background-color: #218838;
+}
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000; /* Increased z-index */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5); /* Slightly darker overlay */
+}
+
+.modal-content {
+    overflow-y: auto;
+    background-image: radial-gradient( #4382e7, #7debb8);
+    margin: 10% auto; /* Adjusted margin */
+    padding: 2rem; /* Increased padding */
+    border: 1px solid #ddd;
+    width: 70%; /* Adjusted width */
+    max-width: 800px; /* Maximum width */
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3); /* Enhanced shadow */
+    border-radius: 10px; /* Rounded corners */
+}
+
+.modal-content form {
+    display: flex;
+    flex-direction: column; /* Align fields vertically */
+}
+
+.modal-content input, 
+.modal-content select, 
+.modal-content textarea {
+    width: 100%; /* Full width of the container */
+    padding: 1rem; /* Increased padding */
+    font-size: 1.2rem; /* Larger text for readability */
+    border: 1px solid #ccc; /* Light border */
+    border-radius: 8px; /* Rounded corners */
+    margin-bottom: 1rem; /* Space between fields */
+}
+
+.modal-content button {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.modal-content button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05); /* Slight scale effect on hover */
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+    </style>
+
+
+</head>
+<body>
+    <header>
+        <img src="images/headerimg.jpg" alt="Logo" class="logo">
+        <h1>IT Assets Management System</h1>
+    </header>
+
+    <nav>
+        <a href="index.html">Home</a>
+        <a href="search-results.html">Discover Records</a>
+        <a href="add.html">Insert Records</a>
+        
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle">View Report</a>
+            <div class="dropdown-menu">
+                <div class="dropdown-category">
+                    <span class="dropdown-category-title">Assets</span>
+                    <a href="am.html">Attendance Machine</a>
+                    <a href="vc.html">Video Conferencing Device</a>
+                    <a href="desktop.html">Desktop</a>
+                    <a href="printer.html">Printer</a>
+                    <a href="routerswitch.html">Router & Switch</a>
+                </div>
+            </div>
+        </div>
+        <div class="dropdown">
+            <a href="#" class="dropdown-toggle">Gate Pass</a>
+            <div class="dropdown-menu">
+                <div class="dropdown-category">
+                    <span class="dropdown-category-title">Gate Pass Management</span>
+                    <a href="addgatepass.html">Add a Gate Pass</a>
+                    <a href="searchgatepass.html">Search Gate Pass Entries</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+    
+
+    <!-- Modal -->
+<div id="editModal" class="modal">
+    <div class="modal-content">
+        <span id="closeModal" class="close">&times;</span>
+        <h2 id="modalTitle">Edit Record</h2>
+        <div id="editContainer">
+            <!-- Form will be dynamically populated here -->
+        </div>
+    </div>
+</div>
+
+    <main>
+        <div class="search-form">
+            <h2>Search Data</h2>
+            <form id="searchForm" onsubmit="fetchResults(event)">
+                <select id="categoryDropdown" name="category" class="category-dropdown" required>
+                    <option value="" disabled selected>Select category</option>
+                    <optgroup label="Assets">
+                        <option value="attendance">Attendance Machine</option>
+                        <option value="video">Video Conferencing Device</option>
+                        <option value="desktop">Desktop</option>
+                        <option value="printer">Printer</option>
+                        <option value="router">Router</option>
+                        <option value="switch">Switch</option>
+                    </optgroup>
+                    <optgroup label="Employee Details">
+                        <option value="sitco">SITCO</option>
+                        <option value="hod">HOD</option>
+                        <option value="internal_auditor">Internal Auditor</option>
+                    </optgroup>
+                    <option value="substation">Substation Info</option>
+                </select>
+                
+                <button type="submit" class="search-button">Search</button>
+            </form>
+        </div>
+        <div id="resultsContainer" style="overflow-x:auto;">
+            <table id="resultsTable" class="results-table">
+                <thead>
+                    <tr id="tableHeader"></tr>
+                </thead>
+                <tbody id="tableBody"></tbody>
+            </table>
+        </div>
+    </main>
+ 
+    <script>
+        async function fetchResults(event) {
+            event.preventDefault();
+            const category = document.getElementById('categoryDropdown').value;
+
+            try {
+                const response = await fetch('/search', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ category })
+                });
+
+                const data = await response.json();
+                console.log('Fetched data:', data);
+
+                const resultsContainer = document.getElementById('resultsContainer');
+                const tableHeader = document.getElementById('tableHeader');
+                const tableBody = document.getElementById('tableBody');
+
+                resultsContainer.style.display = 'block';
+                tableHeader.innerHTML = '';
+                tableBody.innerHTML = '';
+
+                if (data.length > 0) {
+                    const headers = Object.keys(data[0]);
+
+                    headers.forEach(header => {
+                        const th = document.createElement('th');
+                        th.textContent = header;
+                        th.dataset.header = header;
+                        tableHeader.appendChild(th);
+                    });
+
+                    const thEdit = document.createElement('th');
+                    thEdit.textContent = 'Edit';
+                    tableHeader.appendChild(thEdit);
+
+                    const thDelete = document.createElement('th');
+                    thDelete.textContent = 'Delete';
+                    tableHeader.appendChild(thDelete);
+
+                    data.forEach(row => {
+                        const tr = document.createElement('tr');
+                        tr.dataset.id = row.id;
+                        headers.forEach(header => {
+                            const td = document.createElement('td');
+                            td.textContent = row[header];
+                            tr.appendChild(td);
+                        });
+
+                        const tdEdit = document.createElement('td');
+                        const editButton = document.createElement('button');
+                        editButton.textContent = 'Edit';
+                        editButton.classList.add('edit-button');
+                        editButton.addEventListener('click', () => {
+                            editRow(row, category);
+                        });
+                        tdEdit.appendChild(editButton);
+                        tr.appendChild(tdEdit);
+
+                        const tdDelete = document.createElement('td');
+                        const deleteButton = document.createElement('button');
+                        deleteButton.textContent = 'Delete';
+                        deleteButton.classList.add('delete-button');
+                        deleteButton.addEventListener('click', async () => {
+                            // Show confirmation dialog
+    const isConfirmed = confirm('Are you sure you want to delete this item?');
+    if (!isConfirmed) {
+        return; // Exit if the user cancels
+    }
+                            try {
+                                const deleteResponse = await fetch('/delete', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json'
+                                    },
+                                    body: JSON.stringify({ id: row.id, category })
+                                });
+
+                                const deleteData = await deleteResponse.json();
+                                console.log('Deleted data:', deleteData);
+
+                                tr.remove();
+                                alert('Data deleted successfully');
+                            } catch (error) {
+                                console.error('Error deleting data:', error);
+                            }
+                        });
+                        tdDelete.appendChild(deleteButton);
+                        tr.appendChild(tdDelete);
+
+                        tableBody.appendChild(tr);
+                    });
+                } else {
+                    const tr = document.createElement('tr');
+                    const td = document.createElement('td');
+                    td.textContent = 'No results found';
+                    tr.appendChild(td);
+                    tableBody.appendChild(tr);
+                }
+            } catch (error) {
+                console.error('Error fetching results:', error);
+            }
+        }
+
+        function createInputField(form, label, value) {
+            const labelElement = document.createElement('label');
+            labelElement.textContent = label;
+            form.appendChild(labelElement);
+
+            const inputElement = document.createElement('input');
+            inputElement.type = 'text';
+            inputElement.name = label.toLowerCase().replace(/ /g, '_');
+            inputElement.value = value || '';
+            form.appendChild(inputElement);
+        }
+        async function editRow(row, category) {
+    try {
+        const editContainer = document.getElementById('editContainer');
+        editContainer.innerHTML = '';
+
+        const editForm = document.createElement('form');
+        editForm.id = 'editForm';
+        editForm.classList.add('edit-form');
+
+        switch (category) {
+            case 'attendance':
+                createInputField(editForm, 'Make', row.Make);
+                createInputField(editForm, 'Model', row.Model);
+                createInputField(editForm, 'Location', row.Location);
+                createInputField(editForm, 'IP', row.IP);
+                createInputField(editForm, 'Mac Address', row['Mac_Address']);
+                createInputField(editForm, 'Serial Number', row['Serial_Number']);
+                break;
+            case 'video':
+                createInputField(editForm, 'Make', row.Make);
+                createInputField(editForm, 'Model', row.Model);
+                createInputField(editForm, 'IP', row.IP);
+                createInputField(editForm, 'Mac Address', row['Mac_Address']);
+                createInputField(editForm, 'Serial Number', row['Serial_Number']);
+                break;
+            case 'desktop':
+                createInputField(editForm, 'EMP_ID', row.EMP_ID);
+                createInputField(editForm, 'User Name', row.USER_NAME);
+                createInputField(editForm, 'Hostname', row.HOSTNAME);
+                createInputField(editForm, 'IP Address', row.IP_ADDRESS);
+                createInputField(editForm, 'Mac Address', row.MAC_ADDRESS);
+                createInputField(editForm, 'Serial No', row.SERIAL_NO);
+                createInputField(editForm, 'Make', row.MAKE);
+                createInputField(editForm, 'System Model', row.SYSTEM_MODEL);
+                createInputField(editForm, 'Processor', row.PROCESSOR);
+                createInputField(editForm, 'Windows', row.WINDOWS);
+                break;
+            case 'printer':
+                createInputField(editForm, 'Substation', row.SUBSTATION);
+                createInputField(editForm, 'Make', row.MAKE);
+                createInputField(editForm, 'Model No', row.MODEL_NO);
+                break;
+            case 'router':
+                createInputField(editForm, 'Make', row.MAKE);
+                createInputField(editForm, 'Model No', row.MODEL_NO);
+                createInputField(editForm, 'Serial No', row.SERIALNO);
+                createInputField(editForm, 'WAN IP Router', row.WAN_IP_ROUTER);
+                break;
+            case 'switch':
+                createInputField(editForm, 'Make', row.MAKE);
+                createInputField(editForm, 'Model No', row.MODEL_NO);
+                createInputField(editForm, 'Serial No', row.SERIALNO);
+                createInputField(editForm, 'Switch IP Switch', row.SWITCH_IP_SWITCH);
+                break;
+            case 'sitco':
+                createInputField(editForm, 'SUBSTATION', row.SUBSTATION);
+                createInputField(editForm, 'SITCO Name', row.SITCO_NAME);
+                createInputField(editForm, 'SITCO Employee ID', row.SITCO_EMP_ID);
+                createInputField(editForm, 'SITCO Mobile No', row.SITCO_MOBILE_NO);
+                createInputField(editForm, 'SITCO Designation', row.SITCO_DESIGNATION);
+                createInputField(editForm, 'SITCO Mail ID', row.SITCO_MAIL_ID);
+                break;
+            case 'hod':
+                createInputField(editForm, 'SUBSTATION', row.SUBSTATION);
+                createInputField(editForm, 'HOD Name', row.HOD_NAME);
+                createInputField(editForm, 'HOD Employee ID', row.HOD_EMP_ID);
+                createInputField(editForm, 'HOD Mobile No', row.HOD_MOBILE_NO);
+                createInputField(editForm, 'HOD Designation', row.HOD_DESIGNATION);
+                createInputField(editForm, 'HOD Mail ID', row.HOD_MAIL_ID);
+                break;
+            case 'internal_auditor':
+                createInputField(editForm, 'SUBSTATION', row.SUBSTATION);
+                createInputField(editForm, 'Internal Auditor Name', row.INTERNAL_AUDITOR_NAME);
+                createInputField(editForm, 'Internal Auditor Employee ID', row.INTERNAL_AUDITOR_EMP_ID);
+                createInputField(editForm, 'Internal Auditor Mobile No', row.INTERNAL_AUDITOR_MOBILE_NO);
+                createInputField(editForm, 'Internal Auditor Designation', row.INTERNAL_AUDITOR_DESIGNATION);
+                createInputField(editForm, 'Internal Auditor Mail ID', row.INTERNAL_AUDITOR_MAIL_ID);
+                break;
+            case 'substation':
+                createInputField(editForm, 'SUBSTATION', row.SUBSTATION);
+                createInputField(editForm, 'SITCO Name', row.SITCO_NAME);
+                createInputField(editForm, 'SITCO Employee ID', row.SITCO_EMP_ID);
+                createInputField(editForm, 'SITCO Mobile No', row.SITCO_MOBILE_NO);
+                createInputField(editForm, 'SITCO Designation', row.SITCO_DESIGNATION);
+                createInputField(editForm, 'SITCO Mail ID', row.SITCO_MAIL_ID);
+                createInputField(editForm, 'HOD Name', row.HOD_NAME);
+                createInputField(editForm, 'HOD Employee ID', row.HOD_EMP_ID);
+                createInputField(editForm, 'HOD Mobile No', row.HOD_MOBILE_NO);
+                createInputField(editForm, 'HOD Designation', row.HOD_DESIGNATION);
+                createInputField(editForm, 'HOD Mail ID', row.HOD_MAIL_ID);
+                createInputField(editForm, 'Internal Auditor Name', row.INTERNAL_AUDITOR_NAME);
+                createInputField(editForm, 'Internal Auditor Employee ID', row.INTERNAL_AUDITOR_EMP_ID);
+                createInputField(editForm, 'Internal Auditor Mobile No', row.INTERNAL_AUDITOR_MOBILE_NO);
+                createInputField(editForm, 'Internal Auditor Designation', row.INTERNAL_AUDITOR_DESIGNATION);
+                createInputField(editForm, 'Internal Auditor Mail ID', row.INTERNAL_AUDITOR_MAIL_ID);
+                break;
+            default:
+                break;
+        }
+
+        // Display modal
+        const modal = document.getElementById('editModal');
+        modal.style.display = 'block';
+
+        // Close the modal when the user clicks the close button (×)
+        const closeBtn = document.getElementsByClassName('close')[0];
+        closeBtn.onclick = function () {
+            modal.style.display = 'none';
+        };
+
+        const updateButton = document.createElement('button');
+        updateButton.type = 'button';
+        updateButton.textContent = 'Update';
+        updateButton.classList.add('update-button');
+        updateButton.addEventListener('click', async () => {
+            
+            const updatedData = {};
+            Array.from(editForm.elements).forEach(input => {
+                if (input.tagName === 'INPUT') {
+                    updatedData[input.name] = input.value;
+                }
+            });
+
+            console.log('Updated Data:', updatedData); // Debugging
+
+            try {
+                const updateResponse = await fetch('/update', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: row.id, category, updatedData })
+                });
+
+                const updateData = await updateResponse.json();
+                console.log('Updated data:', updateData);
+                
+                alert('Data updated successfully');
+                fetchResults(new Event('submit'));
+                
+
+                // Update the table row with the updated data
+               // updateTableRow(row.id, updatedData, category);
+
+                // Close the modal
+                modal.style.display = 'none';
+            } catch (error) {
+                console.error('Error updating data:', error);
+                alert('Failed to update data');
+            }
+        });
+
+        editForm.appendChild(updateButton);
+        editContainer.appendChild(editForm);
+    } catch (error) {
+        console.error('Error editing row:', error);
+    }
+}
+
+function updateTableRow(id, updatedData, category) {
+    try {
+        console.log('Updating row with ID:', id);
+        console.log('Updated data:', updatedData);
+
+        const tableBody = document.getElementById('tableBody');
+        const rows = tableBody.getElementsByTagName('tr');
+
+        for (let i = 0; i < rows.length; i++) {
+            const row = rows[i];
+            if (row.dataset.id === id.toString()) {
+                const cells = row.getElementsByTagName('td');
+                Array.from(cells).forEach(cell => {
+                    const header = cell.dataset.header;
+                    if (header && updatedData.hasOwnProperty(header)) {
+                        cell.textContent = updatedData[header];
+                    }
+                });
+                break; // Exit loop after updating the row
+            }
+        }
+    } catch (error) {
+        console.error('Error updating table row:', error);
+    }
+}
+    </script>
+
+</body>
+</html>
